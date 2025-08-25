@@ -1,3 +1,5 @@
+import WeatherWidget from "@/weather";
+
 export default function Home() {
-  return <div>test</div>;
+  return <WeatherWidget />;
 }
