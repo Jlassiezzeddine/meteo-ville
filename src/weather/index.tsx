@@ -8,6 +8,7 @@ import React from "react";
 import AccessKeyForm from "./AccessKeyForm";
 import { GeoCity } from "@/lib/openweathermap.types";
 import Icon from "@/components/ui/icon";
+import { Badge } from "@/components/ui/badge";
 
 function WeatherWidget() {
   const {
@@ -61,13 +62,13 @@ function WeatherWidget() {
       {selected && (
         <div className="flex items-center">
           {weather && (
-            <span className="rounded-full bg-zinc-200 px-3 py-1 text-xs">
+            <Badge variant="secondary" className="rounded-full">
               {new Date(weather.date * 1000).toLocaleDateString(undefined, {
                 weekday: "long",
                 day: "2-digit",
                 month: "long",
               })}
-            </span>
+            </Badge>
           )}
         </div>
       )}
