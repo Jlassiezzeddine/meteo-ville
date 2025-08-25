@@ -2,6 +2,9 @@
 
 Small weather widget built with Next.js (App Router) and TanStack Query. It allows a user to enter an OpenWeatherMap API key, search for a city with autosuggest, and view current weather details with a clean UI.
 
+### Live Demo
+https://meteo-ville.vercel.app/
+
 ### Demo Flow
 - Enter your OpenWeatherMap API key
 - Search a city (debounced autosuggest)
