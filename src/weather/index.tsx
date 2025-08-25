@@ -40,6 +40,7 @@ function WeatherWidget() {
   return (
     <div className="flex h-full w-full max-w-xs flex-col space-y-6">
       <Combobox
+        autoFocus={!search}
         className="w-full"
         placeholder="Search city"
         inputValue={search}
@@ -62,16 +63,16 @@ function WeatherWidget() {
 
       {weather && selected && (
         <>
-          <Badge variant="secondary" className="rounded-full">
-            {new Date(weather.date * 1000).toLocaleDateString(undefined, {
-              weekday: "long",
-              day: "2-digit",
-              month: "long",
-            })}
-          </Badge>
-          <Card className="p-8 text-sm">
+          <Card className="p-4 text-sm">
+            <Badge className="rounded-full px-4 py-2">
+              {new Date(weather.date * 1000).toLocaleDateString(undefined, {
+                weekday: "long",
+                day: "2-digit",
+                month: "long",
+              })}
+            </Badge>
             <div>
-              <div className="relative h-40 w-32">
+              <div className="bg-secondary relative size-32 rounded-2xl">
                 <Image
                   src={`https://openweathermap.org/img/wn/${weather.icon}@4x.png`}
                   alt={weather.main ?? "Weather icon"}
@@ -79,7 +80,7 @@ function WeatherWidget() {
                   style={{ objectFit: "cover" }}
                 />
               </div>
-              <p className="text-8xl">
+              <p className="text-9xl">
                 {Math.round(weather.temperature ?? 0)}°
               </p>
               <p className="text-sm font-bold capitalize">
@@ -106,21 +107,21 @@ function WeatherWidget() {
               </p>
             </div>
 
-            <Card className="bg-primary grid grid-cols-3 gap-3 p-4">
+            <Card className="grid grid-cols-3 gap-3 p-4">
               <div className="flex flex-col items-center justify-center gap-2 text-center">
                 <Icon icon="wind" className="mx-auto size-7" />
                 <div>
                   <p className="text-sm font-semibold">
                     {Math.round(weather.windSpeed ?? 0)} km/h
                   </p>
-                  <p className="text-muted-foreground text-xs">Wind</p>
+                  <p className="text-xs">Wind</p>
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center gap-2 text-center">
                 <Icon icon="droplet" className="mx-auto size-7" />
                 <div>
                   <p className="text-sm font-semibold">{weather.humidity}%</p>
-                  <p className="text-muted-foreground text-xs">Humidity</p>
+                  <p className="text-xs">Humidity</p>
                 </div>
               </div>
               <div className="flex flex-col items-center justify-center gap-2 text-center">
@@ -129,7 +130,7 @@ function WeatherWidget() {
                   <p className="text-sm font-semibold">
                     {(weather.visibility ?? 0) / 1000}km
                   </p>
-                  <p className="text-muted-foreground text-xs">Visibility</p>
+                  <p className="text-xs">Visibility</p>
                 </div>
               </div>
             </Card>

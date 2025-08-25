@@ -21,6 +21,7 @@ type ComboboxProps = {
   className?: string;
   disabled?: boolean;
   isLoading?: boolean;
+  autoFocus?: boolean;
 };
 
 export function Combobox({
@@ -34,6 +35,7 @@ export function Combobox({
   className,
   disabled,
   isLoading,
+  autoFocus,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -50,6 +52,12 @@ export function Combobox({
       requestAnimationFrame(() => inputRef.current?.focus());
     }
   }, [open]);
+
+  React.useEffect(() => {
+    if (autoFocus && !disabled) {
+      setOpen(true);
+    }
+  }, [autoFocus, disabled]);
 
   return (
     <div className={cn("relative", className)}>
