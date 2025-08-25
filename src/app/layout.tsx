@@ -23,7 +23,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} dark antialiased`}>
         <Providers>
-          <div className="flex h-dvh flex-col items-center justify-center gap-16 p-8 pb-20 font-sans sm:p-20">
+          <div className="flex h-dvh flex-col items-center justify-center gap-16 p-8">
             {children}
           </div>
         </Providers>

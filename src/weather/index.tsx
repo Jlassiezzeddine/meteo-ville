@@ -38,7 +38,7 @@ function WeatherWidget() {
     );
   }
   return (
-    <div className="flex h-full w-full max-w-xs flex-col space-y-6">
+    <div className="flex h-full w-full max-w-sm flex-col justify-center space-y-6">
       <Combobox
         autoFocus={!search}
         className="w-full"
@@ -63,51 +63,45 @@ function WeatherWidget() {
 
       {weather && selected && (
         <>
-          <Card className="p-4 text-sm">
-            <Badge className="rounded-full px-4 py-2">
+          <Card className="p-3 text-sm">
+            <Badge className="px-4 py-2" variant={"secondary"}>
               {new Date(weather.date * 1000).toLocaleDateString(undefined, {
                 weekday: "long",
                 day: "2-digit",
                 month: "long",
               })}
             </Badge>
-            <div>
-              <div className="bg-secondary relative size-32 rounded-2xl">
-                <Image
-                  src={`https://openweathermap.org/img/wn/${weather.icon}@4x.png`}
-                  alt={weather.main ?? "Weather icon"}
-                  fill
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <p className="text-9xl">
-                {Math.round(weather.temperature ?? 0)}°
-              </p>
-              <p className="text-sm font-bold capitalize">
-                {weather.description}
-              </p>
-              <p className="text-xs">
-                {weather.feelsLike !== weather.temperature &&
-                  ` Feels like ${weather.feelsLike ?? 0}°`}
-                <br />
-                Sunrise will be at{" "}
-                {new Date(weather.sunrise * 1000).toLocaleTimeString(
-                  undefined,
-                  {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  },
-                )}{" "}
-                <br />
-                Sunset will be at{" "}
-                {new Date(weather.sunset * 1000).toLocaleTimeString(undefined, {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-              </p>
-            </div>
 
-            <Card className="grid grid-cols-3 gap-3 p-4">
+            <div className="bg-secondary relative size-32 rounded-2xl">
+              <Image
+                src={`https://openweathermap.org/img/wn/${weather.icon}@4x.png`}
+                alt={weather.main ?? "Weather icon"}
+                fill
+                style={{ objectFit: "cover" }}
+              />
+            </div>
+            <p className="text-9xl">{Math.round(weather.temperature ?? 0)}°</p>
+            <p className="text-sm font-bold capitalize">
+              {weather.description}
+            </p>
+            <p className="text-xs">
+              {weather.feelsLike !== weather.temperature &&
+                ` Feels like ${weather.feelsLike ?? 0}°`}
+              <br />
+              Sunrise will be at{" "}
+              {new Date(weather.sunrise * 1000).toLocaleTimeString(undefined, {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}{" "}
+              <br />
+              Sunset will be at{" "}
+              {new Date(weather.sunset * 1000).toLocaleTimeString(undefined, {
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
+            </p>
+
+            <Card className="bg-secondary grid grid-cols-3 gap-3 p-4">
               <div className="flex flex-col items-center justify-center gap-2 text-center">
                 <Icon icon="wind" className="mx-auto size-7" />
                 <div>
