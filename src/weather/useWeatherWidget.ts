@@ -13,7 +13,8 @@ export type UseWeatherWidgetReturn = {
   selected: GeoCity | null;
   setSelected: React.Dispatch<React.SetStateAction<GeoCity | null>>;
   comboboxOptions: { value: string; label: string; meta: GeoCity }[];
-  isFetching: boolean;
+  isFetchingCities: boolean;
+  isFetchingWeather: boolean;
   weather: Weather | undefined;
 };
 
@@ -24,12 +25,16 @@ export function useWeatherWidget(): UseWeatherWidgetReturn {
 
   const debouncedSearch = useDebouncedValue(search, 300);
 
-  const { data: cities = [], isFetching } = useGeoCities(
+  const { data: cities = [], isFetching: isFetchingCities } = useGeoCities(
     debouncedSearch,
     accessKey,
   );
 
-  const { data: weather } = useWeather(selected?.lat, selected?.lon, accessKey);
+  const { data: weather, isFetching: isFetchingWeather } = useWeather(
+    selected?.lat,
+    selected?.lon,
+    accessKey,
+  );
   const comboboxOptions = React.useMemo(
     () =>
       cities.map((c) => ({
@@ -50,26 +55,29 @@ export function useWeatherWidget(): UseWeatherWidgetReturn {
     selected,
     setSelected,
     comboboxOptions,
-    isFetching,
-    weather: {
-      date: weather?.dt ?? 0,
-      temperature: weather?.main.temp ?? 0,
-      feelsLike: weather?.main.feels_like ?? 0,
-      minTemp: weather?.main.temp_min ?? 0,
-      maxTemp: weather?.main.temp_max ?? 0,
-      humidity: weather?.main.humidity ?? 0,
-      pressure: weather?.main.pressure ?? 0,
-      cloudsPercent: weather?.clouds.all ?? 0,
-      visibility: weather?.visibility ?? 0,
-      windSpeed: weather?.wind.speed ?? 0,
-      windDirectionDeg: weather?.wind.deg ?? 0,
-      windGust: weather?.wind.speed ?? 0,
-      sunrise: weather?.sys.sunrise ?? 0,
-      sunset: weather?.sys.sunset ?? 0,
-      main: weather?.weather[0].main ?? "",
-      description: weather?.weather[0].description ?? "",
-      icon: weather?.weather[0].icon ?? "",
-      timezone: weather?.timezone ?? 0,
-    },
+    isFetchingCities,
+    isFetchingWeather,
+    weather: weather
+      ? {
+          date: weather?.dt,
+          temperature: weather?.main.temp,
+          feelsLike: weather?.main.feels_like,
+          minTemp: weather?.main.temp_min,
+          maxTemp: weather?.main.temp_max,
+          humidity: weather?.main.humidity,
+          pressure: weather?.main.pressure,
+          cloudsPercent: weather?.clouds.all,
+          visibility: weather?.visibility,
+          windSpeed: weather?.wind.speed,
+          windDirectionDeg: weather?.wind.deg,
+          windGust: weather?.wind.speed,
+          sunrise: weather?.sys.sunrise,
+          sunset: weather?.sys.sunset,
+          main: weather?.weather[0].main,
+          description: weather?.weather[0].description,
+          icon: weather?.weather[0].icon,
+          timezone: weather?.timezone,
+        }
+      : undefined,
   };
 }
