@@ -19,13 +19,24 @@ function AccessKeyForm({
     isError,
     error,
   } = useValidateApiKey(accessKey);
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (!accessKey || isValidating) return;
+    try {
+      const result = await validateKey();
+      setIsKeyValid(result.data === true);
+    } catch {
+      setIsKeyValid(false);
+    }
+  }
   return (
     <Card className="w-full max-w-md p-6 shadow-lg">
-      <div className="space-y-3">
+      <form className="space-y-3" onSubmit={handleSubmit}>
         <h2 className="text-lg font-semibold">
           Please provide the OpenWeatherMap API key
         </h2>
         <Input
+          autoFocus
           placeholder="OpenWeatherMap access key"
           value={accessKey}
           onChange={(e) => setAccessKey(e.target.value)}
@@ -35,20 +46,10 @@ function AccessKeyForm({
             {(error as Error)?.message || "Invalid API key"}
           </span>
         )}
-        <Button
-          disabled={!accessKey || isValidating}
-          onClick={async () => {
-            try {
-              const result = await validateKey();
-              setIsKeyValid(result.data === true);
-            } catch {
-              setIsKeyValid(false);
-            }
-          }}
-        >
+        <Button type="submit" disabled={!accessKey || isValidating}>
           {isValidating ? "Validating..." : "Proceed"}
         </Button>
-      </div>
+      </form>
     </Card>
   );
 }
